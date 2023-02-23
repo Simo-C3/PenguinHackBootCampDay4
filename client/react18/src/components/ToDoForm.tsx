@@ -29,15 +29,15 @@ const ToDoItem = (props: props) => {
 
   return (
     <div className="px-5 py-3 rounded-xl shadow-md shadow-gray-300 my-2 relative flex flex-col items-center">
-      <label>
+      <label className="text-gray-600">
         title : 
-        <input className="mx-3" type="text" name="title" value={title} onChange={handleTitleChange} />
+        <input className="mx-3 px-2 py-0.5 bg-gray-100 rounded border-none focus:outline-none" type="text" name="title" placeholder="やること" value={title} onChange={handleTitleChange} />
       </label>
-      <label>
+      <label className="text-gray-600">
         detail : 
-        <input className="mx-3" type="text" name="detail" value={detail} onChange={handleDetailChange} />
+        <input className="mx-3 my-2 px-2 py-0.5 bg-gray-100 rounded border-none focus:outline-none" type="text" name="detail" placeholder="詳細" value={detail} onChange={handleDetailChange} />
       </label>
-      <button className={`px-5 py-3 my-3 rounded-lg shadow-md w-fit ${buttonClassHandler()}`} onClick={() => {props.handleSubmit(title, detail); setTitle(''); setDetail('')}}>投稿</button>
+      <button className={`px-5 py-3 my-3 rounded-lg shadow-md w-fit select-none ${buttonClassHandler()}`} onClick={() => {props.handleSubmit(title, detail); setTitle(''); setDetail('')}}>投稿</button>
     </div>
   )
 }
