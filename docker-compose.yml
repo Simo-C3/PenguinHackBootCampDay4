@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15.2-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    env_file:
+      - ./api/.env
+
+  api:
+    build: ./api
+    command: pipenv run uvicorn main:app --host 0.0.0.0 --reload
+    volumes:
+      - ./api:/api
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+
+  client:
+    build: ./client/react18
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/react18:/client
+    env_file:
+      - ./client/.env
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c 'yarn install && yarn start'
+
+  proxy:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/logs:/var/log/nginx
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/html:/var/www/html
+    depends_on:
+      - api
+      - client
+    # restart: always
+
+volumes:
+  dbdata: null
