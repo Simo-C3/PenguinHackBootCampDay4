@@ -43,6 +43,7 @@ function App() {
 
   return (
       <div className="w-[70%] mx-auto my-10">
+        <div className="text-gray-600 text-4xl mb-5">ToDoリスト</div>
         <ToDoForm handleSubmit={(title: string, detail: string) => {handleSubmit(title, detail)}} />
         <div>
           {toDoList.map((item, index) => {
